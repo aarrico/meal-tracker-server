@@ -1,8 +1,19 @@
-from database import Database
+__author__ = 'aarrico'
+
+from common.database import Database
 from models.food import Food
 from models.meal import Meal
+from flask import Flask
 
-__author__ = 'aarrico'
+app = Flask(__name__)
+
+@app.route('/createFood')
+def create_food():
+    pass
+
+
+if __name__ == '__main__':
+    app.run()
 
 Database.initialize()
 
