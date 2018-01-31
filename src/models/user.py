@@ -4,15 +4,18 @@ from flask import session
 
 from common.database import Database
 from models.meal import Meal
+from models.user_profile import UserProfile
 
 __author__ = 'aarrico'
 
 collection = 'users'
 
+
 class User(object):
-    def __init__(self, email, password, _id=None):
+    def __init__(self, email, password, user_profile=UserProfile(), _id=None):
         self.email = email
         self.password = password
+        self.user_profile = user_profile
         self._id = uuid.uuid4().hex if _id is None else _id
 
     @classmethod
@@ -31,14 +34,14 @@ class User(object):
     def login_valid(email, password):
         user = User.get_by_email(email)
         if user is not None:
-            return user['password'] == password
+            return user.password == password
         return False
 
     @classmethod
-    def register(cls, email, password):
+    def register(cls, email, password, name, protein, carbs, fat):
         user = cls.get_by_email(email)
         if user is None:
-            new_user = cls(email, password)
+            new_user = cls(email, password, UserProfile(email, name, protein, carbs, fat))
             new_user.save_to_mongo()
             session['email'] = email
             return True
@@ -53,8 +56,10 @@ class User(object):
     def logout():
         session['email'] = None
 
-    def get_meals(self):
-        return Meal.find_by_user_id(self._id)
+    def get_meals(self, date=None):
+        if date is None:
+            return Meal.find_by_user_id(self.email)
+        return Meal.find_by_date(self.email, date)
 
     def new_meal(self, foods):
         meal = Meal(self.email, foods, _id=self._id)
@@ -62,9 +67,10 @@ class User(object):
 
     def json(self):
         return {
-            'email': self.email,
             '_id': self._id,
-            'password': self.password
+            'email': self.email,
+            'password': self.password,
+            'user_profile': self.user_profile.json()
         }
 
     def save_to_mongo(self):

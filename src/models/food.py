@@ -3,6 +3,7 @@ __author__ = 'aarrico'
 import uuid
 from common.database import Database
 
+collection = 'foods'
 
 class Food(object):
 
@@ -14,9 +15,6 @@ class Food(object):
         self.fat = fat
         self._id = uuid.uuid4().hex if _id is None else _id
 
-    def save_to_mongo(self):
-        Database.insert('foods', self.json())
-
     def json(self):
         return {
             '_id': self._id,
@@ -27,8 +25,11 @@ class Food(object):
             'fat': self.fat,
         }
 
+    def save_to_mongo(self):
+        Database.insert(collection, self.json())
+
     @classmethod
     def from_mongo(cls, _id):
-        food_data = Database.find_one('foods', {'_id': _id})
+        food_data = Database.find_one(collection, {'_id': _id})
         return cls(**food_data)
 
