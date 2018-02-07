@@ -1,4 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1> Hello {{ name }}</h1>
+    <div class="container">
+        <h2> Welcome {{ profile.name }}</h2>
+        <h3>Current Macros ({{ profile.date }}):</h3>
+        <p>Protein: {{ profile.protein }}</p>
+        <p>Carbs: {{ profile.carbs }}</p>
+        <p>Fat: {{ profile.fat }}</p>
+    </div>
+
+    <div class="container page-form">
+        <form id="redirect-update-profile" action="/update">
+            <button type="submit" class="btn btn-primary">Update Macros</button>
+        </form>
+    </div>
 {% endblock %}

@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container page-form">
+    <h1>Meal Tracker Login</h1>
+    {% if invalid %}
+        <h2>Login credentials are invalid!</h2>
+    {% endif %}
     <form id="login-form" action="/auth/login" method="post">
         <div class="form-group">
             <label for="email">Email</label>
@@ -11,6 +15,11 @@
             <input type="password" class="form-control" id="password" name="password"/>
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+    <hr>
+    <form id="register-button" action="/register">
+            <p>New User?</p>
+            <button type="submit" class="btn btn-primary">Register</button>
     </form>
 </div>
 {% endblock %}

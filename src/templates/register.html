@@ -1,33 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container page-form">
+    <h1>Meal Tracker Registration</h1>
     <form id="registration-form" action="/auth/register" method="post">
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="text" class="form-control" name="email" id="email" />
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password"/>
-        </div>
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name"/>
-        </div>
-        <div class="form-group">
-            <label for="protein">Protein Requirement</label>
-            <input type="number" class="form-control" id="protein" name="protein"/>
-        </div>
-        <div class="form-group">
-            <label for="carbs">Carb Requirement</label>
-            <input type="number" class="form-control" id="carbs" name="carbs"/>
-        </div>
-        <div class="form-group">
-            <label for="fat">Fat Requirement</label>
-            <input type="number" class="form-control" id="fat" name="fat"/>
-        </div>
+        <fieldset>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" name="email" id="email" />
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password"/>
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name"/>
+            </div>
+            <div class="form-group">
+                <label for="protein">Protein Requirement</label>
+                <input type="number" class="form-control" id="protein" name="protein"/>
+            </div>
+            <div class="form-group">
+                <label for="carbs">Carb Requirement</label>
+                <input type="number" class="form-control" id="carbs" name="carbs"/>
+            </div>
+            <div class="form-group">
+                <label for="fat">Fat Requirement</label>
+                <input type="number" class="form-control" id="fat" name="fat"/>
+            </div>
 
-        <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </fieldset>
     </form>
 </div>
 {% endblock %}

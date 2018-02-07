@@ -5,6 +5,7 @@ from common.database import Database
 
 collection = 'foods'
 
+
 class Food(object):
 
     def __init__(self, name, measurement, protein, carbs, fat, _id=None):

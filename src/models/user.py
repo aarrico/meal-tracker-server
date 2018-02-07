@@ -12,11 +12,17 @@ collection = 'users'
 
 
 class User(object):
-    def __init__(self, email, password, user_profile=UserProfile(), _id=None):
+    def __init__(self, email, password, user_profile=None, _id=None):
         self.email = email
         self.password = password
-        self.user_profile = user_profile
+        self.user_profile = UserProfile(self._id) if user_profile is None else user_profile
         self._id = uuid.uuid4().hex if _id is None else _id
+
+    def get_id(self):
+        return self._id
+
+    def get_name(self):
+        return self.user_profile['name']
 
     @classmethod
     def get_by_email(cls, email):
@@ -41,7 +47,9 @@ class User(object):
     def register(cls, email, password, name, protein, carbs, fat):
         user = cls.get_by_email(email)
         if user is None:
-            new_user = cls(email, password, UserProfile(email, name, protein, carbs, fat))
+            new_user = cls(email, password)
+            new_user.user_profile = UserProfile(new_user._id, name, protein, carbs, fat)
+            new_user.user_profile.save_profile()
             new_user.save_to_mongo()
             session['email'] = email
             return True
@@ -51,6 +59,7 @@ class User(object):
     @staticmethod
     def login(user_email):
         session['email'] = user_email
+        return User.get_by_email(user_email)
 
     @staticmethod
     def logout():

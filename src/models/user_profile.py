@@ -1,5 +1,6 @@
 import uuid
 
+import datetime
 from common import utilities
 from common.database import Database
 
@@ -9,12 +10,14 @@ collection = 'userprofile'
 
 
 class UserProfile(object):
-    def __init__(self, user_id='', name='', protein=0.0, carbs=0.0, fat=0.0, _id=None):
+    def __init__(self, user_id='', name='', protein=0.0, carbs=0.0, fat=0.0, datetime=datetime.datetime.utcnow(), _id=None):
         self.user_id = user_id
         self.name = name
         self.protein = protein
         self.carbs = carbs
         self.fat = fat
+        self.datetime = datetime
+        self.date = datetime.date()
         self._id = uuid.uuid4().hex if _id is None else _id
 
     def calculate_calories(self):
@@ -27,7 +30,9 @@ class UserProfile(object):
             'name': self.name,
             'protein': self.protein,
             'carbs': self.carbs,
-            'fat': self.fat
+            'fat': self.fat,
+            'datetime': self.datetime,
+            'date': self.date
         }
 
     def save_profile(self):
