@@ -1,10 +1,10 @@
-from common import utilities
-
 __author__ = 'aarrico'
 
 import datetime
 import uuid
 from common.database import Database
+from common import utilities
+
 
 collection = 'meals'
 

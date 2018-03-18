@@ -2,15 +2,23 @@
 {% block content %}
     <div class="container">
         <h2> Welcome {{ profile.name }}</h2>
-        <h3>Current Macros ({{ profile.date }}):</h3>
+        <h4>Current Macros ({{ profile.datetime.date() }}):</h4>
         <p>Protein: {{ profile.protein }}</p>
         <p>Carbs: {{ profile.carbs }}</p>
         <p>Fat: {{ profile.fat }}</p>
-    </div>
 
-    <div class="container page-form">
+
         <form id="redirect-update-profile" action="/update">
             <button type="submit" class="btn btn-primary">Update Macros</button>
         </form>
+
+        <hr>
+
+        <form class="form-inline" id="redirect-meals" action="/meals">
+            <label class="sr-only" for="date">Date</label>
+            <input type="date" class="form-control mb-2 mr-sm-2 mb-sm-0" id="date" name="date"/>
+            <button type="submit" class="btn btn-primary">View Meals</button>
+        </form>
     </div>
+
 {% endblock %}

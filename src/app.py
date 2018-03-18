@@ -54,9 +54,9 @@ def register_user():
     except KeyError as error:
         print("Error getting form from HTML: " + error)
 
-    User.register(email, password, name, protein, carbs, fat)
+    user = User.register(email, password, name, protein, carbs, fat)
 
-    return render_template('profile.html', name=name)
+    return render_template('profile.html', profile=user.user_profile)
 
 
 @app.route('/auth/login', methods=['POST'])

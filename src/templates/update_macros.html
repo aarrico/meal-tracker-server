@@ -1,20 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container page-form">
+<div class="container">
     <h1>Macros Update</h1>
     <form id="registration-form" action="/update/macros" method="post">
         <fieldset>
-            <div class="form-group">
-                <label for="protein">Protein Requirement</label>
-                <input type="number" class="form-control" id="protein" name="protein"/>
+            <div class="form-group row">
+                <div class="col-xs-3">
+                    <label for="protein">Protein Requirement</label>
+                    <input type="number" class="form-control" id="protein" name="protein"/>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="carbs">Carb Requirement</label>
-                <input type="number" class="form-control" id="carbs" name="carbs"/>
+            <div class="form-group row">
+                <div class="col-xs-3">
+                    <label for="carbs">Carb Requirement</label>
+                    <input type="number" class="form-control" id="carbs" name="carbs"/>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="fat">Fat Requirement</label>
-                <input type="number" class="form-control" id="fat" name="fat"/>
+            <div class="form-group row">
+                <div class="col-xs-3">
+                    <label for="fat">Fat Requirement</label>
+                    <input type="number" class="form-control" id="fat" name="fat"/>
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary">Update</button>

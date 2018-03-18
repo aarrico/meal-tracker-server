@@ -17,7 +17,7 @@ class UserProfile(object):
         self.carbs = carbs
         self.fat = fat
         self.datetime = datetime
-        self.date = datetime.date()
+        #self.date = datetime.date()
         self._id = uuid.uuid4().hex if _id is None else _id
 
     def calculate_calories(self):
@@ -31,8 +31,7 @@ class UserProfile(object):
             'protein': self.protein,
             'carbs': self.carbs,
             'fat': self.fat,
-            'datetime': self.datetime,
-            'date': self.date
+            'datetime': self.datetime
         }
 
     def save_profile(self):

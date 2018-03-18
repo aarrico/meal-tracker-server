@@ -15,8 +15,8 @@ class User(object):
     def __init__(self, email, password, user_profile=None, _id=None):
         self.email = email
         self.password = password
-        self.user_profile = UserProfile(self._id) if user_profile is None else user_profile
         self._id = uuid.uuid4().hex if _id is None else _id
+        self.user_profile = UserProfile(self._id) if user_profile is None else user_profile
 
     def get_id(self):
         return self._id
@@ -52,7 +52,7 @@ class User(object):
             new_user.user_profile.save_profile()
             new_user.save_to_mongo()
             session['email'] = email
-            return True
+            return user
         else:
             return False
 
