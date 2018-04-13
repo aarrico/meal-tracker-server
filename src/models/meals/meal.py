@@ -3,7 +3,7 @@ __author__ = 'aarrico'
 import datetime
 import uuid
 from common.database import Database
-from common import utilities
+from common import utils
 
 
 collection = 'meals'
@@ -21,6 +21,9 @@ class Meal(object):
         self._id = uuid.uuid4().hex if _id is None else _id
         self.date = date
 
+    def __repr__(self):
+        return "<Meal at {} protein: {} carbs: {} fat: {} foods: {}>".format(self.date, self.protein, self.carbs, self.fat, self.foods)
+
     def calculate_macros(self):
         macros = {'protein': 0, 'carbs': 0, 'fat': 0}
         for key in self.foods:
@@ -33,7 +36,7 @@ class Meal(object):
         return macros
 
     def calculate_calories(self):
-        return utilities.calculate_calories(self.protein, self.carbs, self.fat)
+        return utils.calculate_calories(self.protein, self.carbs, self.fat)
 
     def json(self):
         return {

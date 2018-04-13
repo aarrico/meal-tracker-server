@@ -1,7 +1,7 @@
 import uuid
 
 import datetime
-from common import utilities
+from common import utils
 from common.database import Database
 
 __author__ = 'aarrico'
@@ -20,8 +20,12 @@ class UserProfile(object):
         #self.date = datetime.date()
         self._id = uuid.uuid4().hex if _id is None else _id
 
+    def __repr__(self):
+        return "<User {} Daily goals: protein: {} carbs: {} fat: {} last updated: {}>".format(self.name, self.protein, self.carbs, self.fat, self.datetime)
+
+
     def calculate_calories(self):
-        return utilities.calculate_calories(self.protein, self.carbs, self.fat)
+        return utils.calculate_calories(self.protein, self.carbs, self.fat)
 
     def json(self):
         return {

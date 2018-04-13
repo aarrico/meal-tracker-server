@@ -16,6 +16,9 @@ class Food(object):
         self.fat = fat
         self._id = uuid.uuid4().hex if _id is None else _id
 
+    def __repr__(self):
+        return "<{} protein: {} carbs: {} fat: {}>".format(self.name, self.protein, self.carbs, self.fat)
+
     def json(self):
         return {
             '_id': self._id,

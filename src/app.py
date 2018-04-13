@@ -1,14 +1,15 @@
-import datetime
-
-from models.user_profile import UserProfile
-
 __author__ = 'aarrico'
 
-from models.user import User
+import datetime
+from models.users.user_profile import UserProfile
+from models.users.user import User
+from models.meals.meal import Meal
 from common.database import Database
 from flask import Flask, request, render_template, session, redirect, url_for, make_response
+from src.models.users.views import user_blueprint
 
 app = Flask(__name__)
+app.config.from_object('config')
 app.secret_key = "alex"
 
 
@@ -16,13 +17,16 @@ app.secret_key = "alex"
 def initialize_database():
     Database.initialize()
 
+
+app.register_blueprint(user_blueprint, url_prefix='/users')
+
 # RENDERING METHODS
 
 
-@app.route('/')
-def redirect_login():
-    session['invalid'] = False
-    return render_login()
+#@app.route('/')
+#def redirect_login():
+#    session['invalid'] = False
+#    return render_login()
 
 
 @app.route('/register')
@@ -30,9 +34,9 @@ def render_register():
     return render_template('register.html')
 
 
-@app.route('/login')
-def render_login():
-    return render_template('login.html', invalid=session['invalid'])
+#@app.route('/login')
+#def render_login():
+#    return render_template('login.html', invalid=session['invalid'])
 
 
 @app.route('/update')
@@ -64,7 +68,7 @@ def login_user():
     email = request.form['email']
     password = request.form['password']
 
-    if User.login_valid(email, password):
+    if User.is_login_valid(email, password):
         user = User.login(email)
         session['invalid'] = False
     else:
@@ -75,20 +79,20 @@ def login_user():
     return render_template('profile.html', profile=user.user_profile)
 
 
-@app.route('/foods/new', methods=['POST', 'GET'])
-def create_new_meal():
-    if request.method == 'GET':
-        return render_template('new_food.html')
-    else:
-        user = User.get_by_email(session['email'])
-        name = request.form(['name'])
-        protein = request.form(['protein'])
-        carbs = request.form(['carbs'])
-
-        new_meal = Meal(user._id, foods)
-        new_meal.save_to_mongo()
-
-        return make_response(user_meals(user._id))
+# @app.route('/foods/new', methods=['POST', 'GET'])
+# def create_new_meal():
+#     if request.method == 'GET':
+#         return render_template('new_food.html')
+#     else:
+#         user = User.get_by_email(session['email'])
+#         name = request.form(['name'])
+#         protein = request.form(['protein'])
+#         carbs = request.form(['carbs'])
+#
+#         new_meal = Meal(user._id, foods)
+#         new_meal.save_to_mongo()
+#
+#         return make_response(user_meals(user._id))
 
 # MEAL METHODS
 
@@ -131,7 +135,3 @@ def update_macros():
                                     request.form['fat'])
     user.user_profile.save_profile()
     return render_template('profile.html', profile=user.user_profile)
-
-
-if __name__ == '__main__':
-    app.run()
