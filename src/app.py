@@ -6,7 +6,7 @@ __author__ = 'aarrico'
 
 from models.user import User
 from common.database import Database
-from flask import Flask, request, render_template, session, redirect, url_for
+from flask import Flask, request, render_template, session, redirect, url_for, make_response
 
 app = Flask(__name__)
 app.secret_key = "alex"
@@ -74,6 +74,22 @@ def login_user():
 
     return render_template('profile.html', profile=user.user_profile)
 
+
+@app.route('/foods/new', methods=['POST', 'GET'])
+def create_new_meal():
+    if request.method == 'GET':
+        return render_template('new_food.html')
+    else:
+        user = User.get_by_email(session['email'])
+        name = request.form(['name'])
+        protein = request.form(['protein'])
+        carbs = request.form(['carbs'])
+
+        new_meal = Meal(user._id, foods)
+        new_meal.save_to_mongo()
+
+        return make_response(user_meals(user._id))
+
 # MEAL METHODS
 
 
@@ -89,6 +105,20 @@ def user_meals(user_id=None):
     meals = user.get_meals(date=date)
 
     return render_template("user_meals.html", meals=meals, name=user.get_name(), date=date.date())
+
+
+@app.route('/meals/new', methods=['POST', 'GET'])
+def create_new_meal():
+    if request.method == 'GET':
+        return render_template('new_meal.html')
+    else:
+        user = User.get_by_email(session['email'])
+        foods = request.form(['foods'])
+
+        new_meal = Meal(user._id, foods)
+        new_meal.save_to_mongo()
+
+        return make_response(user_meals(user._id))
 
 
 @app.route('/update/macros')
