@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X_UA_Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Meal Tracker</title>
+
+    {% include 'html_dependencies.jinja2' %}
+
+</head>
+<body>
+
+<nav class="navbar  navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/" title="Home">Meal Track</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbar" aria-expanded="false">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('users.user_profile') }}">Profile <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('meals.user_meals') }}">Meals</a>
+            </li>
+        </ul>
+        {%  if session['email'] %}
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ url_for('users.logout_user') }}">Log out</a></li>
+            </ul>
+        {% else %}
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ url_for('users.register_user') }}">Sign Up</a></li>
+                <li><a href="{{ url_for('users.login_user') }}">Log in</a></li>
+            </ul>
+        {% endif %}
+    </div>
+</nav>
+
+<div class="content container">
+    {% block content %}
+
+    {% endblock %}
+</div>
+</body>
+</html>

@@ -5,10 +5,9 @@ from common.utils import Utils
 from models.meals.meal import Meal
 from models.users.user_profile import UserProfile
 import models.users.errors as UserErrors
+import models.users.constants as UserConstants
 
 __author__ = 'aarrico'
-
-collection = 'users'
 
 
 class User(object):
@@ -29,13 +28,13 @@ class User(object):
 
     @classmethod
     def get_by_email(cls, email):
-        data = Database.find_one(collection, {'email': email})
+        data = Database.find_one(UserConstants.COLLECTION, {'email': email})
         if data is not None:
             return cls(**data)
 
     @classmethod
     def get_by_id(cls, _id):
-        data = Database.find_one(collection, {'_id': _id})
+        data = Database.find_one(UserConstants.COLLECTION, {'_id': _id})
         if data is not None:
             return cls(**data)
 
@@ -49,7 +48,7 @@ class User(object):
         return True
 
     @classmethod
-    def register_user(cls, email, password): #, name, protein, carbs, fat):
+    def register_user(cls, email, password, name, protein, carbs, fat):
         user_data = cls.get_by_email(email)
         if user_data is not None:
             raise UserErrors.UserAlreadyRegisteredException("{} is already in use.".format(email))
@@ -57,11 +56,10 @@ class User(object):
             raise UserErrors.InvalidEmailException("{} is not valid.".format(email))
 
         new_user = cls(email, Utils.hash_password(password))
-            # new_user.user_profile = UserProfile(new_user._id, name, protein, carbs, fat)
-            # new_user.user_profile.save_profile()
+        new_user.user_profile = UserProfile(new_user._id, name, protein, carbs, fat)
+        new_user.user_profile.save_profile()
         new_user.save_to_mongo()
         return True
-
 
     @staticmethod
     def login(user_email):
@@ -90,5 +88,5 @@ class User(object):
         }
 
     def save_to_mongo(self):
-        Database.insert(collection, self.json())
+        Database.insert(UserConstants.COLLECTION, self.json())
 

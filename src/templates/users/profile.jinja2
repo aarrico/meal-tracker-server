@@ -1,20 +1,23 @@
-{% extends "base.html" %}
+{% extends "base.jinja2" %}
 {% block content %}
     <div class="container">
+        <div class="page-header">
         <h2> Welcome {{ profile.name }}</h2>
+        </div>
         <h4>Current Macros ({{ profile.datetime.date() }}):</h4>
-        <p>Protein: {{ profile.protein }}</p>
-        <p>Carbs: {{ profile.carbs }}</p>
-        <p>Fat: {{ profile.fat }}</p>
+        <div class="list-group">
+            <li class="list-group-item-item">Protein: {{ profile.protein }}</li>
+            <li class="list-group-item-item">Carbs: {{ profile.carbs }}</li>
+            <li class="list-group-item-item">Fat: {{ profile.fat }}</li>
+        </div>
 
-
-        <form id="redirect-update-profile" action="/update">
+        <form id="redirect-update-profile" action="{{ url_for('users.update_macros') }}">
             <button type="submit" class="btn btn-primary">Update Macros</button>
         </form>
 
         <hr>
 
-        <form class="form-inline" id="redirect-meals" action="/meals">
+        <form class="form-inline" id="redirect-meals" action="{{ url_for('users.get_meals') }}">
             <label class="sr-only" for="date">Date</label>
             <input type="date" class="form-control mb-2 mr-sm-2 mb-sm-0" id="date" name="date"/>
             <button type="submit" class="btn btn-primary">View Meals</button>

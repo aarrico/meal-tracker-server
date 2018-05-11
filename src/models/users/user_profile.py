@@ -23,7 +23,6 @@ class UserProfile(object):
     def __repr__(self):
         return "<User {} Daily goals: protein: {} carbs: {} fat: {} last updated: {}>".format(self.name, self.protein, self.carbs, self.fat, self.datetime)
 
-
     def calculate_calories(self):
         return utils.calculate_calories(self.protein, self.carbs, self.fat)
 
